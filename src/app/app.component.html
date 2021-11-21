@@ -3,9 +3,16 @@
 <ng-template #data>
   <mat-form-field class="example-full-width" appearance="fill">
     <mat-label>Raça de cachorro</mat-label>
-    <input matInput type="text" placeholder="Digite uma raça de cachorro" #dogBreed (blur)="getDogBreed()">
+    <input matInput type="text" placeholder="Digite uma raça de cachorro" #dogBreed (blur)="checkIfDoBreedExists()">
   </mat-form-field>
 </ng-template>
+
+<div class="not-found-message" #notFoundMessage>
+  <img src="">
+  <p>Desculpe, não foi possível encontrar essa raça de cachorro.</p>
+  <button type="button" (click)="hideNotFoundMessage()">Close</button>
+</div>
+
 <mat-grid-list cols="4" rowHeight="2:1">
   <mat-grid-tile *ngFor="let image of theFirstFiveImages">
     <img src="{{ image }}">

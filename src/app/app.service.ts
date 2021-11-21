@@ -6,13 +6,15 @@ import { catchError } from 'rxjs';
 export class AppService {
   constructor(private http: HttpClient) { }
 
+  url: string = 'https://dog.ceo/api/breeds/list/all'
   dogUrl: string = ''
+
+  getAllDogBreeds() {
+    return this.http.get(this.url)
+  }
 
   getDogBreed(dogBreed: string) {
     this.dogUrl = `https://dog.ceo/api/breed/${dogBreed}/images`;
-  }
-
-  getDog() {
     return this.http.get(this.dogUrl).pipe(
       catchError((x) => {
         console.log(x)

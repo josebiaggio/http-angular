@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { LoaderComponent } from './loader/loader.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoaderComponent } from './loader/loader.component';
     HttpClientModule,
     MatGridListModule,
     BrowserAnimationsModule,
-    MatInputModule
+    MatInputModule,
+    MatCardModule
   ],
   providers: [ AppComponent ],
   bootstrap: [AppComponent]

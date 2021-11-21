@@ -10,30 +10,53 @@ export class AppComponent implements OnInit {
   constructor(private appService: AppService) { }
 
   @ViewChild('dogBreed', {static: false}) dogBreedInput!: ElementRef;
+  @ViewChild('notFoundMessage', {static: false}) notFoundMessageDiv!: ElementRef;
   dogBreed: string = ''
-  dogData: any = {};
+  dogBreedFound: string = ''
+  dogImages: any = {};
   loading: boolean = false;
-  theFirstFiveImages: any = [];
+  allDogBreeds: any = {}
+  theFirstFiveImages: string[] = [];
 
   ngOnInit () {
     this.loading = false
   }
 
-  getDogBreed() {
+  checkIfDoBreedExists() {
     this.dogBreed = this.dogBreedInput.nativeElement.value
-    this.appService.getDogBreed(this.dogBreed)
+    this.appService.getAllDogBreeds().subscribe(x => {
+      this.allDogBreeds = x
+      Object.keys(this.allDogBreeds.message).forEach(key => {
+        if(key === this.dogBreed) this.dogBreedFound = this.dogBreed
+      })
+
+      if(this.dogBreedFound) this.getDogBreed(this.dogBreed)
+      else this.showNotFoundMessage()
+
+    })
+  }
+
+  getDogBreed(dogBreed: string) {
     this.loading = true;
-    this.appService.getDog().subscribe(x => {
-      this.dogData = x
-      console.log(this.dogData)
+    this.appService.getDogBreed(dogBreed).subscribe(x => {
+      this.dogImages = x
+      console.log(this.dogImages)
       this.getTheFirstFiveImages()
       this.loading = false;
     });
   }
 
   getTheFirstFiveImages() {
-    this.theFirstFiveImages = this.dogData.message.filter((image: any, index: any) => {
+    this.theFirstFiveImages = this.dogImages.message.filter((image: any, index: any) => {
       if(index < 5) return image
     })
+  }
+
+  showNotFoundMessage() {
+    this.notFoundMessageDiv.nativeElement.style.display = 'flex'
+  }
+
+  hideNotFoundMessage() {
+    this.notFoundMessageDiv.nativeElement.style.display = 'none'
   }
 }
